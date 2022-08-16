@@ -1,7 +1,10 @@
-import NextAuth from "next-auth"
+import NextAuth from "next-auth";
 // import GithubProvider from "next-auth/providers/github"
 import GoogleProvider from "next-auth/providers/google";
+import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
+import clientPromise from "../../../lib/mongodb";
 export default NextAuth({
+  adapter: MongoDBAdapter(clientPromise),
   // Configure one or more authentication providers
   providers: [
     // GithubProvider({
@@ -9,25 +12,11 @@ export default NextAuth({
     //   clientSecret: process.env.GITHUB_SECRET,
     // }),
     GoogleProvider({
-        clientId: process.env.GOOGLE_CLIENT_ID,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      }),
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    }),
     // ...add more providers here
   ],
-  pages: {
-    signIn: "/auth/signin",
-  },
 
   secret: process.env.SECRET,
-
-  callbacks: {
-    async session({ session, token }) {
-      session.user.username = session.user.name
-        .split(" ")
-        .join("")
-        .toLocaleLowerCase();
-      session.user.uid = token.sub;
-      return session;
-    },
-  },
-})
+});

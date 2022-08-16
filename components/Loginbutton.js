@@ -1,26 +1,19 @@
 import { useSession, signIn, signOut } from "next-auth/react";
-import { useTheme } from "next-themes";
-import ThemeSwitch from "../components/ThemeSwitch";
-
-export default function Component() {
+export default function Loginbutton() {
   const { data: session } = useSession();
   if (session) {
     return (
       <>
-        <ThemeSwitch />
+        Signed in as {session.user.email}
         <br />
-        <br />
-        Signed in as {session.user.email}<br />
         <button onClick={() => signOut()}>Sign out</button>
       </>
     );
   }
   return (
     <>
-      <ThemeSwitch />
+      Not signed in
       <br />
-      <br />
-      Not signed in <br />
       <button onClick={() => signIn()}>Sign in</button>
     </>
   );
