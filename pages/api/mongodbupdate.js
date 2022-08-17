@@ -7,17 +7,20 @@ async function handler(req, resp) {
     return;
   }
 
-  const { heading, description } = req.body;
-
-  console.log(req.body);
-
   const client = await MongoClient.connect(mongoconnect);
 
   const db = client.db();
 
   const collection = db.collection("todos");
-
-  const result = await collection.insertOne(req.body);
+  const updateDoc = {
+    $set: {
+      name: `ROFL`,
+    },
+  };
+  const result = await collection.updateOne(
+    { email: "qeqeqe3@gmail.com" },
+    updateDoc
+  );
   client.close();
 
   resp.status(201).json({
