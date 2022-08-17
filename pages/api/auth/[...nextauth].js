@@ -6,6 +6,9 @@ import clientPromise from "../../../lib/mongodb";
 export default NextAuth({
   adapter: MongoDBAdapter(clientPromise),
   // Configure one or more authentication providers
+  // session: {
+  //   maxAge: 60 * 24 * 60 * 60, // set cookie for 60 days, default is 30
+  // },
   providers: [
     // GithubProvider({
     //   clientId: process.env.GITHUB_ID,
