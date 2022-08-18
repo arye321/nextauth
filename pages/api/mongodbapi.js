@@ -1,29 +1,33 @@
 import { MongoClient } from "mongodb";
 import mongoconnect from "../../lib/mongodbconnect";
+import { getToken } from "next-auth/jwt";
 
-async function handler(req, resp) {
-  if (req.method !== "POST") {
-    resp.status(400).send({ message: "Bad request" });
-    return;
+export default async (req, res) => {
+  const secret = process.env.SECRET
+  const token = await getToken({ req:req ,secret:secret});
+  // console.log({ token });
+  
+  if (token) {
+    if (req.method !== "POST") {
+      res.status(401).send({ message: "Bad request" });
+    } else {
+
+      const client = await MongoClient.connect(mongoconnect);
+
+      const db = client.db();
+
+      const collection = db.collection("todos");
+
+      const result = await collection.insertOne(req.body);
+      client.close();
+
+      res.status(201).json({
+        todo: result,
+        message: "To do created",
+      });
+    }
+  } else {
+    res.status(401).send({ message: "Bad request" });
   }
-
-  const { heading, description } = req.body;
-
-  console.log(req.body);
-
-  const client = await MongoClient.connect(mongoconnect);
-
-  const db = client.db();
-
-  const collection = db.collection("todos");
-
-  const result = await collection.insertOne(req.body);
-  client.close();
-
-  resp.status(201).json({
-    todo: result,
-    message: "To do created",
-  });
-}
-
-export default handler;
+  res.end();
+};
