@@ -15,6 +15,8 @@ export default function Component() {
 
       <Link href="/test"> test</Link>
       <br></br>
+      <br></br>
+      <Link href="/opa" > OPA</Link>
         
     </>
   );
