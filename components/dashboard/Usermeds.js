@@ -22,7 +22,7 @@ export default function Usermeds() {
   if (loaded === true) {
     return (
       <>
-        <h1> data: {data}</h1>
+        <h4> data: {data}</h4>
       </>
     );
   }
