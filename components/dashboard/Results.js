@@ -1,5 +1,5 @@
 export default function Results({ data, add, remove }) {
-  //   console.log("data asdf", data);
+    // console.log("data asdf", data);
   //   return("asd")
   return data.map((res) => (
     <div key={res.dragRegNum}>

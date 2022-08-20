@@ -28,7 +28,7 @@ export default function Search() {
     )
       .then((response) => response.json())
       .then((data) => {
-        // console.log("data=", data);
+        console.log("data=", data);
         if (data.results.length > 0) {
           setResult(
             <Results
