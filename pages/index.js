@@ -3,7 +3,7 @@ import ThemeSwitch from "../components/ThemeSwitch";
 import Welcome from "../components/Welcome";
 
 export default function Component() {
-  //t
+  //t2
   return (
     <>
       <ThemeSwitch />
