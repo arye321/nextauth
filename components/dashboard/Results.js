@@ -7,7 +7,7 @@ export default function Results({ data, add, remove }) {
         type="button"
         value="הוספה"
         onClick={(i) => {
-          add(res.dragHebName);
+          add(res);
         }}
       />
       <h4 style={{ display: "inline-block", marginLeft: "10px" }}>

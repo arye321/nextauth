@@ -6,6 +6,7 @@ import MyMeds from "../components/dashboard/MyMeds";
 export default function Dashboard() {
   const [loaded, setLoaded] = useState(false);
   const [cantLoad, setCantLoad] = useState(false);
+  const [added, setAdded] = useState(0);
 
   useEffect(() => {}, []);
   if (cantLoad) {
@@ -17,15 +18,20 @@ export default function Dashboard() {
   }
   return (
     <>
-      <Search />
+      <Search medsData={()=>{
+        setAdded(added+1)
+      }}/>
       <br />
       <br />
       <br />
       <h3>רשימת תרופות במעקב:</h3>
       <MyMeds
+        added={added}
         cantLoad={(e) => {
           setCantLoad(e);
-        }}
+        }
+        
+      }
       />
     </>
   );
