@@ -17,11 +17,11 @@ export default async (req, res) => {
   const collection = db.collection("todos");
   //mongodb return a specific document
   const result = await collection.findOne({ "email":email,"meds": {$exists: true}})
-  console.log(result)
+  // console.log(result)
   if (result == null) {
       console.log("no meds")
       res.status(201).json({
-        "array": []
+        "res": []
       });
     }
   else{

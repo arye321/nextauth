@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import Results from "./Results";
 
-export default function Search({medsData}) {
+export default function Search({addedDrug}) {
   //   const [loaded, setLoaded] = useState(false);
   const [result, setResult] = useState("");
+
   const [finishedPush, setFinishPush] = useState(true);
 
   const inputRef = useRef(null);
@@ -37,7 +38,6 @@ export default function Search({medsData}) {
               data={data.results}
               add={(drug) => {
                 pushMed(drug);
-                medsData()
               }}
             />
           );
@@ -54,9 +54,14 @@ export default function Search({medsData}) {
         "Content-Type": "application/json",
       },
     });
-    if (result.status !== 201) {
+    if (result.status === 201) {
+      addedDrug({"med":med,"date": new Date()})
+    
+    }
+    else {
       setFinishPush(false);
     }
+
   }
   if (!finishedPush) {
     return(<h3>error saving meds</h3>)
