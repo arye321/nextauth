@@ -25,10 +25,10 @@ export default function MyMeds({ addedDrug, cantLoad }) {
     };
     fetchMeds();
   }, [addedDrug]);
-  async function setMeds(meds) {
+  async function setMeds(meds,medId) {
     const result = await fetch("/api/setdrugs", {
       method: "POST",
-      body: JSON.stringify({ "drugs": meds }),
+      body: JSON.stringify({ "drugs": meds ,"medId":medId}),
       headers: {
         "Content-Type": "application/json",
       },
@@ -43,9 +43,13 @@ export default function MyMeds({ addedDrug, cantLoad }) {
 
   }
   function removeMed(med) {
-    // console.log("removeMed", med)
+    //regex only numbers from string:
+   
+    const medId = med.dragRegNum.match(/\d+/g).join("")
+
+    // console.log("medId", medId ,med.dragRegNum)
     const newMeds = dataState.filter((item) => item !== med);
-    setMeds(newMeds)
+    setMeds(newMeds,medId)
     setData(newMeds);
   }
   if (loaded === true) {
