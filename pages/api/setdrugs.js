@@ -27,7 +27,7 @@ export default async (req, res) => {
     todos.updateOne(filter, updateDoc);
     const followList = db.collection("followList");
     const resf = await followList.updateOne({ medId: medId }, { $pull: { followers: { $eq: email } } })
-    console.log({ resf })
+    // console.log({ resf })
     res.status(201).json({
       message: `set drugs`,
     });

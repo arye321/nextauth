@@ -10,7 +10,9 @@ export default async (req, res) => {
   if (token && req.method === "POST") {
     const email = token.email
     const client = await MongoClient.connect(mongoconnect);
+    // console.log(req.body.med)
     const medId = req.body.med.dragRegNum.match(/\d+/g).join("")
+    const medEngName = req.body.med.dragEnName
     // console.log({medId})
 
     const db = client.db();
@@ -23,7 +25,12 @@ export default async (req, res) => {
         meds: req.body.med,
       },
     };
-    todos.updateOne(filter, updateDoc);
+    todos.findOneAndUpdate(filter, updateDoc,
+      {
+        returnOriginal: false,
+        upsert: true
+      }
+    );
     // const updateTodo = await todos.updateOne(filter, updateDoc);  
     // if (updateTodo.modifiedCount === 1) {
     // client.close();
@@ -32,19 +39,14 @@ export default async (req, res) => {
       message: "To do created",
     });
     const followList = db.collection("followList");
-    const filter2 = { "medId": medId };
+    const filter2 = { "medId": medId, "engName": medEngName }
     const updateDoc2 = {
       $push: {
         followers: email,
-      },
-    };
+      }
+    }
     // const followres = await followList.updateOne(filter2, updateDoc2); 
-    followList.findOneAndUpdate({ "medId": medId },
-      {
-        $push: {
-          followers: email,
-        }
-      },
+    followList.findOneAndUpdate(filter2, updateDoc2,
       {
         returnOriginal: false,
         upsert: true

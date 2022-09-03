@@ -1,20 +1,20 @@
 import { useState, useEffect, useRef } from "react";
 import Results from "./Results";
 
-export default function Search({addedDrug}) {
+export default function Search({ addedDrug }) {
   //   const [loaded, setLoaded] = useState(false);
   const [result, setResult] = useState("");
 
   const [finishedPush, setFinishPush] = useState(true);
 
   const inputRef = useRef(null);
-  
+
   async function search() {
     var input = inputRef.current.value;
 
     setResult(<h4> Loading... </h4>);
     //api call /adddrug post with input
-    
+
     await fetch(
       "https://israeldrugs.health.gov.il/GovServiceList/IDRServer/SearchByName",
       {
@@ -31,7 +31,7 @@ export default function Search({addedDrug}) {
     )
       .then((response) => response.json())
       .then((data) => {
-        // console.log("data=", data);
+        console.log("data=", data);
         if (data.results.length > 0) {
           setResult(
             <Results
@@ -46,17 +46,17 @@ export default function Search({addedDrug}) {
         }
       });
   }
-  async function pushMed(med){ 
+  async function pushMed(med) {
     const result = await fetch("/api/adddrug", {
       method: "POST",
-      body: JSON.stringify({"med": med} ),
+      body: JSON.stringify({ "med": med }),
       headers: {
         "Content-Type": "application/json",
       },
     });
     if (result.status === 201) {
-      addedDrug({"med":med,"date": new Date()})
-    
+      addedDrug({ "med": med, "date": new Date() })
+
     }
     else {
       setFinishPush(false);
@@ -64,7 +64,7 @@ export default function Search({addedDrug}) {
 
   }
   if (!finishedPush) {
-    return(<h3>error saving meds</h3>)
+    return (<h3>error saving meds</h3>)
   }
   return (
     <>
