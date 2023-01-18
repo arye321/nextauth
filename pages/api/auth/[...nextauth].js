@@ -1,7 +1,10 @@
 import NextAuth from "next-auth";
 // import GithubProvider from "next-auth/providers/github"
 import GoogleProvider from "next-auth/providers/google";
+import FacebookProvider from "next-auth/providers/facebook";
+
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
+
 import clientPromise from "../../../lib/mongodb";
 if (!process.env.GOOGLE_CLIENT_ID){
   throw new Error("Please add  GOOGLE_CLIENT_ID  to .env.local")
